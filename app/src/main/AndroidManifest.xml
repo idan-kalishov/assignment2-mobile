@@ -16,6 +16,8 @@
         <!-- Other Activities -->
         <activity android:name=".activities.AddStudentActivity" />
         <activity android:name=".activities.StudentDetailsActivity" />
+        <activity android:name=".activities.EditStudentActivity" />
+
 
 
         <!-- Set StudentListActivity as the launcher activity -->

@@ -34,7 +34,7 @@ class StudentListActivity : AppCompatActivity() {
             if (result.resultCode == RESULT_OK) {
                 // Handle update (edited student)
                 val updatedStudent = result.data?.getParcelableExtra<Student>("updatedStudent")
-                val oldStudentId = result.data?.getStringExtra("oldStudentId") // Get old ID if it was changed
+                val oldStudentId = result.data?.getStringExtra("oldStudentId")
                 updatedStudent?.let { student ->
                     val index = studentList.indexOfFirst { it.id == oldStudentId ?: student.id }
                     if (index != -1) {
@@ -44,7 +44,6 @@ class StudentListActivity : AppCompatActivity() {
                     }
                 }
 
-                // Handle delete (deleted student ID)
                 val deletedStudentId = result.data?.getStringExtra("deletedStudentId")
                 deletedStudentId?.let { id ->
                     val index = studentList.indexOfFirst { it.id == id }

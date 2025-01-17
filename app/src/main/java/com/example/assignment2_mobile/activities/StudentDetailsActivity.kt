@@ -26,8 +26,8 @@ class StudentDetailsActivity : AppCompatActivity() {
     private val editStudentLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == Activity.RESULT_OK) {
-                setResult(Activity.RESULT_OK, result.data) // Forward result to StudentListActivity
-                finish() // Close StudentDetailsActivity
+                setResult(Activity.RESULT_OK, result.data)
+                finish()
             }
         }
 
@@ -56,7 +56,7 @@ class StudentDetailsActivity : AppCompatActivity() {
         buttonEdit.setOnClickListener {
             val intent = Intent(this, EditStudentActivity::class.java)
             intent.putExtra("student", student)
-            editStudentLauncher.launch(intent) // Launch EditStudentActivity
+            editStudentLauncher.launch(intent)
         }
     }
 

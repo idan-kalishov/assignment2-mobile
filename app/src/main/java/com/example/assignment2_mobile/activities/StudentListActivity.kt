@@ -18,20 +18,22 @@ class StudentListActivity : AppCompatActivity() {
     private val studentList = mutableListOf<Student>()
     private lateinit var adapter: StudentAdapter
 
+    companion object {
+        const val ADD_STUDENT_REQUEST_CODE = 1
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_student_list)
 
         seedStudents()
 
-
-
-
         val recyclerView: RecyclerView = findViewById(R.id.recyclerView_students)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         val dividerItemDecoration = DividerItemDecoration(this, LinearLayoutManager.VERTICAL)
         recyclerView.addItemDecoration(dividerItemDecoration)
+
 
         adapter = StudentAdapter(studentList, object : StudentAdapter.OnItemClickListener {
             override fun onStudentClick(student: Student) {
@@ -42,7 +44,6 @@ class StudentListActivity : AppCompatActivity() {
             }
 
             override fun onCheckChanged(student: Student, isChecked: Boolean) {
-                // Update check status
                 student.isChecked = isChecked
             }
         })
@@ -51,15 +52,27 @@ class StudentListActivity : AppCompatActivity() {
 
         val fab: FloatingActionButton = findViewById(R.id.fab_add_student)
         fab.setOnClickListener {
-            // Navigate to Add Student screen
             val intent = Intent(this, AddStudentActivity::class.java)
-            startActivity(intent)
+            startActivityForResult(intent, ADD_STUDENT_REQUEST_CODE)
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == ADD_STUDENT_REQUEST_CODE && resultCode == RESULT_OK) {
+            data?.let {
+                val newStudent = it.getParcelableExtra<Student>("newStudent")
+                newStudent?.let { student ->
+                    studentList.add(student)
+                    adapter.notifyDataSetChanged()
+                }
+            }
         }
     }
 
     private fun seedStudents() {
-        studentList.add(Student("1", "avi", false))
-        studentList.add(Student("2", "liron", true))
-        studentList.add(Student("3", "omer", false))
+        studentList.add(Student("1", "Avi", "123456", "Tel Aviv",  false))
+        studentList.add(Student("2", "Liron", "654321", "Haifa",  true))
     }
 }
